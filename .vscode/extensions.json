@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "cmoog.sqlnotebook",
+        "cweijan.vscode-postgresql-client2",
+        "oderwat.indent-rainbow",
+        "ms-toolsai.jupyter",
+        "ms-python.python"
+    ]
+}
