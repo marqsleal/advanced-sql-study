@@ -102,3 +102,11 @@ FROM        happiness_score hs
             INNER JOIN country_stats cs
             ON hs.country = cs.country;
 ```
+- `INNER`: Return Records that exists in **BOTH** tables, and **EXCLUDES** unmatched records from either table;
+- `LEFT`: Return **ALL** records from the **LEFT** table, and any matching records from the **RIGHT** table;
+- `RIGHT`: Return **ALL** records from the **RIGHT** table, and any matching records from the **LEFT** table;
+- `FULL OUTER`: Return **ALL** records from **BOTH** tables, **INCLUDING** non-matching records.  
+
+Not Supported Joins:
+- *SQLite* does not support `RIGHT JOIN` and `FULL OUTER JOIN`;
+- *MySQL* does not support `FULL OUTER JOIN`;
