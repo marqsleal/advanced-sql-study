@@ -119,3 +119,26 @@ Not Supported Joins:
 Stack multiple tables or queries on top of one another
 - `UNION` removes duplicate values, while `UNION ALL` retains them;
 - `UNION ALL` runs FASTER than `UNION`;
+
+## Subqueries and Common Table Expressions (CTE)
+
+### Subqueries
+Is query nested within a main query
+- Subqueries starts with parentesis and a `SELECT` statement;
+- the code on the subquery always runs first than the code on the main query;
+```sql
+SELECT      *
+FROM        happiness_scores
+WHERE       happines_score >
+            (
+                SELECT      AVG(happines_score)
+                FROM        happiness_scores
+            )   
+```
+Where the subquery can occur?
+- Calculations in the `SELECT` clause
+- As part of a `JOIN` in the `FROM` clause
+- Filtering in the `WHERE` and `HAVING` clauses
+
+
+### Common Table Expressions (CTE)
