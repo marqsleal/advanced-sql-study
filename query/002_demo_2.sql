@@ -181,3 +181,117 @@ FROM        employess e1
             LEFT JOIN employess e2
                 ON e1.manager_id = e2.employee_id
 WHERE       1=1;
+
+/*markdown
+## Cross Joins
+*/
+
+CREATE TABLE tops (
+    id INT,
+    item VARCHAR(50)
+);
+
+CREATE TABLE sizes (
+    id INT,
+    size VARCHAR(50)
+);
+
+CREATE TABLE outewear (
+    id INT,
+    item VARCHAR(50)
+);
+
+INSERT INTO tops (id, item) VALUES
+(1, 'T-Shirt'),
+(2, 'Hoodie');
+
+INSERT INTO sizes (id, size) VALUES
+(101, 'Small'),
+(102, 'Medium'),
+(103, 'Large');
+
+INSERT INTO outewear (id, item) VALUES
+(2, 'Hoodie'),
+(3, 'Jacket'),
+(4, 'Coat');
+
+SELECT      *
+FROM        tops
+WHERE       1=1;
+
+SELECT      *
+FROM        outewear
+WHERE       1=1;
+
+SELECT      *
+FROM        sizes
+WHERE       1=1;
+
+SELECT      *
+FROM        tops
+            CROSS JOIN sizes;
+
+SELECT      p1.product_name, p1.unit_price,
+            p2.product_name, p2.unit_price,
+            ABS(
+                p1.unit_price - p2.unit_price
+            ) AS price_diff
+FROM        products p1
+            CROSS JOIN products p2
+WHERE       ABS(
+                p1.unit_price - p2.unit_price
+            ) < 0.25            
+            AND p1.product_name < p2.product_name
+ORDER BY    price_diff DESC;
+
+/*markdown
+## Union
+*/
+
+SELECT      *
+FROM        tops
+WHERE       1=1;
+
+SELECT      *
+FROM        outewear
+WHERE       1=1;
+
+SELECT      *
+FROM        tops
+UNION ALL
+SELECT      *
+FROM        outewear
+
+SELECT      *
+FROM        happiness_scores
+WHERE       1=1;
+
+SELECT      *
+FROM        happiness_scores_current
+WHERE       1=1;
+
+SELECT      DISTINCT(year)
+FROM        happiness_scores
+WHERE       1=1;
+
+SELECT      year,
+            country,
+            happiness_score
+FROM        happiness_scores
+WHERE       1=1;
+
+SELECT      2024,
+            country,
+            ladder_score
+FROM        happiness_scores_current
+WHERE       1=1;
+
+SELECT      year,
+            country,
+            happiness_score
+FROM        happiness_scores
+UNION
+SELECT      2024,
+            country,
+            ladder_score
+FROM        happiness_scores_current;;

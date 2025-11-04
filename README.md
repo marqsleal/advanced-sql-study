@@ -110,3 +110,12 @@ FROM        happiness_score hs
 Not Supported Joins:
 - *SQLite* does not support `RIGHT JOIN` and `FULL OUTER JOIN`;
 - *MySQL* does not support `FULL OUTER JOIN`;
+
+- `CROSS JOIN`: Return all combinations of rows within two or more tables
+
+**WARNING**: produces an enormous output (number of rows of one table times the number of the rows of the other table)
+
+### `UNION`
+Stack multiple tables or queries on top of one another
+- `UNION` removes duplicate values, while `UNION ALL` retains them;
+- `UNION ALL` runs FASTER than `UNION`;
