@@ -161,3 +161,76 @@ WHERE       happiness_score > avg_hs
 ```
 
 Consider subqueries for simple queries and old RDBMS
+
+## Window Functions
+Used to apply a function to a "window" of data
+- Window: groups of rows
+
+How are window functions different than `GROUP BY`?
+- **Aggregate Functions**: Collapse the rows in each group and apply calculations
+- **Window Functions**: Leave the rows as they are and apply calculations
+
+Aggregate Function:
+```sql
+SELECT      country,
+            AVG(happiness_score) AS avg_hs
+FROM        happiness_scores
+GROUP BY    country
+```
+Window Function:
+```sql
+SELECT      country,
+            year,
+            happiness_score,
+            ROW_NUMBER() OVER (
+                PARTITION BY    country
+                ORDER BY        year        
+            ) AS row_num
+FROM        happiness_scores
+```
+
+4 main components:
+- Function to Apply (required): `ROW_NUMBER`, `FIRST_VALUE`, `LAG`, etc
+- Window Function Declaration (required): `OVER`
+- Define Window (optional): `PARTITION BY` column, blank = entire table
+- Sorting the rows (optional, required in Oracle and MSSQL): `ORDER BY` column
+
+Basic Window Function
+```sql
+ROW_NUMBER() OVER (
+    PARTITION BY    country
+    ORDER BY        happiness_score
+)
+```
+
+### Functions
+| Function | Category |
+|---|---|
+| Row Numbering | `ROW_NUMBER` <br> `RANK` <br> `DENSE_RANK`|
+| Value Within a Window | `FIRST_VALUE` <br> `LAST_VALUE` <br> `NTH_VALUE`|
+| Value Relative to a Row | `LEAD` <br> `LAG`|
+| Aggregate Functions | `SUM`, `AVG`, `COUNT` <br> `MIN`, `MAX`|
+| Statistical Functions | `NTILE` <br> `CUME_DIST` <br> `PERCENT_RANK`|
+
+#### Row Numbering
+- `ROW_NUMBER`: assigns a unique sequential index to each row within the partition.
+- `RANK`: assigns the same rank to tied values, leaving gaps in the ranking sequence.
+- `DENSE_RANK`: assigns the same rank to tied values, keeping the sequence continuous with no gaps.
+
+#### Value Within a Window
+- `FIRST_VALUE(column)`: retrieves the first value in the window based on the defined order.
+- `LAST_VALUE(column)`: retrieves the last value in the window.
+- `NTH_VALUE(column, N)` (MSSQL does not support): retrieves the value at the N-th position in the window.
+
+#### Value Relative to a Row
+- `LEAD(column)`: returns the value from the next row relative to the current row.
+- `LAG(column)`: returns the value from the previous row relative to the current row.
+
+#### Aggregate Functions
+- `SUM`, `AVG`, `COUNT`: compute cumulative or windowed totals, averages, and row counts over the defined window.
+- `MIN`, `MAX`: return the minimum or maximum value within the window frame.
+
+#### Statistical Functions
+- `NTILE(n)` (SQLite does not support): divides rows into *n* approximately equal groups and assigns a bucket number to each row.
+- `CUME_DIST`: returns the cumulative distribution of a value, representing the proportion of rows with values less than or equal to the current row.
+- `PERCENT_RANK`: returns the relative rank of a row as a percentage, based on its position within the partition.
