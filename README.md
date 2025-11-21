@@ -129,11 +129,11 @@ Is query nested within a main query
 ```sql
 SELECT      *
 FROM        happiness_scores
-WHERE       happines_score >
+WHERE       happiness_score >
             (
-                SELECT      AVG(happines_score)
+                SELECT      AVG(happiness_score)
                 FROM        happiness_scores
-            )   
+            ) 
 ```
 Where the subquery can occur?
 - Calculations in the `SELECT` clause
@@ -142,3 +142,22 @@ Where the subquery can occur?
 
 
 ### Common Table Expressions (CTE)
+A **common table experssion (CTE)** creates a named, temporary output that can be referenced within another query
+
+Why CTEs instead of subqueries?
+- Readability
+- Reuseability
+- Recursiveness
+
+```sql
+WITH avg_hs AS (
+    SELECT      AVG(happiness_score) as avg_hs
+    FROM        happiness_scores
+)
+SELECT      *
+FROM        happiness_scores,
+            avg_hs
+WHERE       happiness_score > avg_hs
+```
+
+Consider subqueries for simple queries and old RDBMS
